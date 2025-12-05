@@ -12,7 +12,8 @@ app.use(express.json());
 
 // Health check
 app.get('/', (req, res) => {
-  res.send('Shopify Data Ingestion Service is running');
+  const dbStatus = process.env.DATABASE_URL ? 'Connected' : 'Missing DB URL';
+  res.send(`Shopify Service v2 - ${dbStatus}`);
 });
 
 // Routes will be added here
