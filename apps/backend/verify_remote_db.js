@@ -9,7 +9,7 @@ async function main() {
   console.log('Connecting to remote DB...');
   try {
     const tenants = await prisma.tenant.findMany();
-    console.log('Tenants found:', tenants);
+    console.log('Tenants found:', tenants.map(t => ({ id: t.id, password: t.password })));
   } catch (error) {
     console.error('Error connecting or fetching:', error);
   } finally {

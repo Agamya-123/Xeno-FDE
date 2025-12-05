@@ -2,7 +2,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 exports.login = async (req, res) => {
-  const { tenantId, password } = req.body;
+  let { tenantId, password } = req.body;
+  tenantId = tenantId?.trim();
+  password = password?.trim();
   try {
     const tenant = await prisma.tenant.findUnique({ where: { id: tenantId } });
     
