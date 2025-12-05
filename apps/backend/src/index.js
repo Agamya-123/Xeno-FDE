@@ -16,6 +16,24 @@ app.get('/', (req, res) => {
   res.send(`Shopify Service v2 - ${dbStatus}`);
 });
 
+// DEBUG: Check DB connection details
+app.get('/api/debug-db', async (req, res) => {
+  try {
+    const url = process.env.DATABASE_URL || 'None';
+    const maskedUrl = url.substring(0, 20) + '...';
+    const count = await prisma.tenant.count();
+    const tenants = await prisma.tenant.findMany({ select: { id: true } });
+    
+    res.json({
+      maskedUrl,
+      tenantCount: count,
+      tenants
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Routes will be added here
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/ingest', require('./routes/ingest'));
