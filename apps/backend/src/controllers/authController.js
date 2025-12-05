@@ -18,6 +18,10 @@ exports.login = async (req, res) => {
     res.json({ message: 'Login successful', tenantId: tenant.id });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Login failed' });
+    return res.status(500).json({ 
+      error: 'Login failed', 
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
   }
 };
