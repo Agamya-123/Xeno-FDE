@@ -31,7 +31,8 @@ export default function Insights() {
     const fetchInsights = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:4000/api/insights/${tenantId}`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            const res = await axios.get(`${API_URL}/api/insights/${tenantId}`);
             setData(res.data);
         } catch (error) {
             console.error('Failed to fetch insights', error);

@@ -18,7 +18,8 @@ export default function Login() {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:4000/api/auth/login', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.post(`${API_URL}/api/auth/login`, {
         tenantId,
         password
       });

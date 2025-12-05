@@ -45,7 +45,8 @@ export default function Customers() {
     const fetchCustomers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`http://localhost:4000/api/customers/${tenantId}?page=${page}&limit=10&search=${debouncedSearch}&minSpent=${minSpent}`);
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            const res = await axios.get(`${API_URL}/api/customers/${tenantId}?page=${page}&limit=10&search=${debouncedSearch}&minSpent=${minSpent}`);
             setCustomers(res.data.data);
             setTotalPages(res.data.meta.totalPages);
         } catch (error) {
@@ -58,7 +59,8 @@ export default function Customers() {
     const handleCreateCustomer = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:4000/api/customers', {
+            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+            await axios.post(`${API_URL}/api/customers`, {
                 tenantId,
                 ...newCustomer
             });

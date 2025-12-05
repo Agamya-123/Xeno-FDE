@@ -45,7 +45,8 @@ export default function Orders() {
   const handleCreateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/api/orders', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      await axios.post(`${API_URL}/api/orders`, {
         tenantId,
         ...newOrder
       });
@@ -61,7 +62,8 @@ export default function Orders() {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:4000/api/orders/${tenantId}?page=${page}&limit=10&search=${debouncedSearch}&minTotal=${minTotal}`);
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+      const res = await axios.get(`${API_URL}/api/orders/${tenantId}?page=${page}&limit=10&search=${debouncedSearch}&minTotal=${minTotal}`);
       setOrders(res.data.data);
       setTotalPages(res.data.meta.totalPages);
     } catch (error) {

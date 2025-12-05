@@ -11,7 +11,9 @@ async function main() {
       accessToken: 'test_token_123'
     },
   });
-  console.log({ tenant });
+  console.log('✅ Seed successful!');
+  console.log('Create Tenant ID:', tenant.id);
+  console.log('Default Password: password');
 }
 
 main()
