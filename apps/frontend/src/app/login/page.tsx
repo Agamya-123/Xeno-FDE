@@ -30,7 +30,10 @@ export default function Login() {
       }
     } catch (err) {
       console.error('Login failed', err);
-      setError('Invalid Tenant ID or Password');
+      console.error('Login failed', err);
+      // @ts-ignore
+      const backendError = err.response?.data?.details || err.response?.data?.error || err.message;
+      setError(`Login Failed: ${backendError}`);
     } finally {
       setLoading(false);
     }
