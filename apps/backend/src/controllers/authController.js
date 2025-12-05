@@ -9,12 +9,23 @@ exports.login = async (req, res) => {
     const tenant = await prisma.tenant.findUnique({ where: { id: tenantId } });
     
     if (!tenant) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      console.log('Login failed: Tenant not found', { receivedId: tenantId });
+      return res.status(401).json({ 
+        error: `Tenant not found for ID: '${tenantId}'`,
+        receivedId: tenantId
+      });
     }
 
     // In a real app, compare hashed password
     if (tenant.password !== password) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      console.log('Login failed: Password mismatch', { 
+        receivedPass: password, 
+        dbPass: tenant.password 
+      });
+      return res.status(401).json({ 
+        error: `Password mismatch. Received: '${password}', Expected: '${tenant.password}'`,
+        receivedPass: password
+      });
     }
 
     res.json({ message: 'Login successful', tenantId: tenant.id });
